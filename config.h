@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Dieses Programm ist Freie Software: Sie k�nnen es unter den Bedingungen
+ * Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
  * der GNU General Public License, wie von der Free Software Foundation,
  * Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
- * ver�ffentlichten Version, weiter verteilen und/oder modifizieren.
+ * veröffentlichten Version, weiter verteilen und/oder modifizieren.
  *
- * Dieses Programm wird in der Hoffnung bereitgestellt, dass es n�tzlich sein wird, jedoch
- * OHNE JEDE GEW�HR,; sogar ohne die implizite
- * Gew�hr der MARKTF�HIGKEIT oder EIGNUNG F�R EINEN BESTIMMTEN ZWECK.
- * Siehe die GNU General Public License f�r weitere Einzelheiten.
+ * Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein wird, jedoch
+ * OHNE JEDE GEWÄHR,; sogar ohne die implizite
+ * Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+ * Siehe die GNU General Public License für weitere Einzelheiten.
  *
  * Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
  * Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
@@ -36,6 +36,10 @@
  * @brief This file contains the project configuration
  *
  * All definitions are visible in the entire project
+ *
+ * Put all your project settings here (defines, numbers, etc.)
+ * configurations which are requiring knowledge of types etc.
+ * shall be placed in z_config.ino (will be included at the end)
  */
 
 
@@ -48,6 +52,7 @@
 //#define MIDI_USB_HOST_ENABLED /* requires usb=arduino */
 //#define MIDI_USB_DEVICE_ENABLED /* requires usb=tinyusb */
 
+//#define KEYB_USB_HOST_ENABLED /* requires usb=arduino */
 
 #define MIDI_RECV_FROM_SERIAL
 #define Status_ValueChangedFloat(...)

@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Dieses Programm ist Freie Software: Sie k�nnen es unter den Bedingungen
+ * Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
  * der GNU General Public License, wie von der Free Software Foundation,
  * Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
- * ver�ffentlichten Version, weiter verteilen und/oder modifizieren.
+ * veröffentlichten Version, weiter verteilen und/oder modifizieren.
  *
- * Dieses Programm wird in der Hoffnung bereitgestellt, dass es n�tzlich sein wird, jedoch
- * OHNE JEDE GEW�HR,; sogar ohne die implizite
- * Gew�hr der MARKTF�HIGKEIT oder EIGNUNG F�R EINEN BESTIMMTEN ZWECK.
- * Siehe die GNU General Public License f�r weitere Einzelheiten.
+ * Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein wird, jedoch
+ * OHNE JEDE GEWÄHR,; sogar ohne die implizite
+ * Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+ * Siehe die GNU General Public License für weitere Einzelheiten.
  *
  * Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
  * Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
  */
+
 
 /**
  * @file samd21_mini_synth.ino
@@ -45,13 +46,18 @@
 #include "cdt.h"
 #endif
 
+
 #include "config.h"
+
 
 #ifdef MIDI_USB_HOST_ENABLED
 #include <Usb.h>
 #include <usbh_midi.h>
 #include <usbhub.h>
 #endif
+
+
+#define MUL_I16(a, b) ((int16_t)((((int32_t)a) * ((int32_t)(b))) / 0x8000))
 
 
 void setup()
@@ -62,6 +68,8 @@ void setup()
 
 #if defined MIDI_USB_HOST_ENABLED
     MidiHost_setup();
+#elif defined KEYB_USB_HOST_ENABLED
+    KeybHost_setup();
 #elif defined MIDI_USB_DEVICE_ENABLED
     MidiDev_setup();
 #else
@@ -101,6 +109,10 @@ void ProcessAudio(uint16_t *buff, size_t len)
 #endif
     cnt += SAMPLE_BUFFER_SIZE;
     Midi_Process();
+
+#ifdef KEYB_USB_HOST_ENABLED
+    KeybHost_loop();
+#endif
 }
 
 void loop_1Hz()

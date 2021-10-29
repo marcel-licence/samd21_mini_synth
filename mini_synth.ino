@@ -125,6 +125,11 @@ struct adsrT
 struct adsrT adsr_vol = {0.25f, 0.25f, 1.0f, 0.01f};
 struct adsrT adsr_fil = {1.0f, 0.25f, 1.0f, 0.01f};
 
+uint8_t synthNoise = 0;
+uint16_t synthNoiseSignal = 0x1234;
+int16_t synthNoiseVol = 0;
+int16_t synthNoiseRel = 1;
+uint8_t synthNoiseCnt = 0;
 
 typedef enum
 {
@@ -247,9 +252,9 @@ void Synth_Init()
         float val = (float)sin(i * 2.0 * PI / WAVEFORM_CNT);
         sinef[i] = (val);
         sine[i] = FLOAT_TO_I16(val);
-        saw[i] = FLOAT_TO_I16((2.0f * ((float)i) / ((float)WAVEFORM_CNT)) - 1.0f);
-        square[i] =  FLOAT_TO_I16((i > (WAVEFORM_CNT / 2)) ? 1 : -1);
-        pulse[i] =  FLOAT_TO_I16((i > (WAVEFORM_CNT / 4)) ? 1 : -1);
+        saw[i] = FLOAT_TO_I16((2.0f * ((float)i) / ((float)WAVEFORM_CNT)) - 1.0f) / 2;
+        square[i] =  FLOAT_TO_I16((i > (WAVEFORM_CNT / 2)) ? 1 : -1) / 4;
+        pulse[i] =  FLOAT_TO_I16((i > (WAVEFORM_CNT / 4)) ? 0.25 : -1) / 2;
         tri[i] = FLOAT_TO_I16(((i > (WAVEFORM_CNT / 2)) ? (((4.0f * (float)i) / ((float)WAVEFORM_CNT)) - 1.0f) : (3.0f - ((4.0f * (float)i) / ((float)WAVEFORM_CNT)))) - 2.0f);
         noise[i] =  FLOAT_TO_I16((random(1024) / 512.0f) - 1.0f);
         silence[i] =  FLOAT_TO_I16(0);
@@ -376,6 +381,8 @@ int16_t GetModulation(void)
 [[gnu::noinline, gnu::optimize("fast-math")]]
 inline void Synth_Process_Buff(int32_t *left, int buffLen)
 {
+    Synth_NoteDelayProcess();
+
     for (int n = 0; n < buffLen; n++)
     {
         left[n] = n;
@@ -431,6 +438,29 @@ inline void Synth_Process_Buff(int32_t *left, int buffLen)
             }
         }
     }
+
+    if (synthNoise > 0)
+    {
+
+        for (int n = 0; n < buffLen; n++)
+        {
+            if (synthNoiseCnt >= synthNoise)
+            {
+                synthNoiseCnt = 0;
+                synthNoiseSignal *=  0x11;//analogRead(A1);
+                synthNoiseSignal += 0x73956366;//analogRead(A1);
+                synthNoiseSignal = (synthNoiseSignal << 2) + (synthNoiseSignal >> 14);
+            }
+            synthNoiseCnt++;
+
+
+            int16_t NoiseOut = ((int16_t)synthNoiseSignal) ;
+            left[n] += MUL_I16(NoiseOut, synthNoiseVol);
+
+            synthNoiseVol -= (synthNoiseVol >= synthNoiseRel) ? synthNoiseRel : 0;
+        }
+
+    }
 }
 
 /*
@@ -468,9 +498,74 @@ struct notePlayerT *getFreeVoice()
     return NULL;
 }
 
+struct
+{
+    uint8_t ch;
+    uint8_t note;
+    uint8_t vel;
+    uint8_t delay;
+} noteDelayList[256];
+
+uint8_t noteDelayIn = 0;
+uint8_t noteDelayOut = 0;
+uint8_t playDly = 0;
+volatile bool noteDelay = true;
+
+#define DLY_MASK_MAX    0xFF
+
+//#define SPEC_ECHO
+
+/*
+ * 220 is one half second
+ */
+uint8_t delayTime = 0;
+
+//#define DELAY_TIME    (255 - 220)
+
+void Synth_NoteDelayProcess()
+{
+    playDly += 1;
+    playDly &= DLY_MASK_MAX;
+    if (noteDelayIn != noteDelayOut)
+    {
+        while (noteDelayList[noteDelayOut].delay == playDly)
+        {
+            noteDelay = false;
+            if (noteDelayList[noteDelayOut].vel > 0)
+            {
+                Synth_NoteOn(noteDelayList[noteDelayOut].ch, noteDelayList[noteDelayOut].note, 127);
+                Serial.printf("don\n");
+            }
+            else
+            {
+                Synth_NoteOff(noteDelayList[noteDelayOut].ch, noteDelayList[noteDelayOut].note);
+                Serial.printf("dof\n");
+            }
+            noteDelay = true;
+            noteDelayOut++;
+        }
+    }
+}
 
 inline void Synth_NoteOn(uint8_t ch, uint8_t note, float vel)
 {
+#ifdef SPEC_ECHO
+    if (note < 127)
+#else
+    if (noteDelay && (delayTime != 0))
+#endif
+    {
+        noteDelayList[noteDelayIn].ch = ch;
+#ifdef SPEC_ECHO
+        noteDelayList[noteDelayIn].note = note + 5;
+#else
+        noteDelayList[noteDelayIn].note = note;
+#endif
+        noteDelayList[noteDelayIn].vel = 127;
+        noteDelayList[noteDelayIn].delay = (playDly - delayTime)&DLY_MASK_MAX;
+        noteDelayIn++;
+    }
+
     struct notePlayerT *voice = getFreeVoice();
     struct oscillatorT *osc = getFreeOsc();
 
@@ -514,12 +609,77 @@ inline void Synth_NoteOn(uint8_t ch, uint8_t note, float vel)
 
 inline void Synth_NoteOff(uint8_t ch, uint8_t note)
 {
+#ifdef SPEC_ECHO
+    if (note < 127)
+#else
+    if (noteDelay && (delayTime != 0))
+#endif
+    {
+        noteDelayList[noteDelayIn].ch = ch;
+#ifdef SPEC_ECHO
+        noteDelayList[noteDelayIn].note = note + 5;
+#else
+        noteDelayList[noteDelayIn].note = note;
+#endif
+        noteDelayList[noteDelayIn].vel = 0;
+        noteDelayList[noteDelayIn].delay = (playDly - delayTime)&DLY_MASK_MAX;
+        noteDelayIn++;
+    }
+
     for (int i = 0; i < MAX_POLY_VOICE ; i++)
     {
         if ((voicePlayer[i].active) && (voicePlayer[i].midiNote == note) && (voicePlayer[i].midiCh == ch))
         {
             Voice_Off(i);
             voicePlayer[i].phase = release;
+        }
+    }
+}
+
+void Synth_FuncF(uint8_t param, float val)
+{
+    if (val > 0)
+    {
+        if (param < 6)
+        {
+            chControl[0].waveForm = waveFormList[param];
+        }
+
+        switch (param)
+        {
+        case 8:
+            delayTime = 0;
+            break;
+        case 9:
+            delayTime = 255 - 220;
+            break;
+        case 10:
+            delayTime = 255 - 110;
+            break;
+        case 11:
+            delayTime = 255 - 55;
+            break;
+        }
+    }
+}
+
+void Synth_Noise(uint8_t type, float val)
+{
+    if (val > 0)
+    {
+        synthNoise = type + 1;
+        synthNoiseVol = 0x6000;
+        if (type == 1)
+        {
+            synthNoiseRel = 4;
+        }
+        else if (type == 2)
+        {
+            synthNoiseRel = 2;
+        }
+        else
+        {
+            synthNoiseRel = 1;
         }
     }
 }

@@ -24,3 +24,8 @@ Some key features:
 - RX pin for MIDI in (please use a dedicated circuit with an opto-coupler)
 - DAC as audio out (requires a capacitor in series and an amplifier)
 
+<h2>Options</h2>
+Please activate KEYB_USB_HOST_ENABLED in config.h to allow connecting an USB keyboard.
+- the keyboard can be connected using an OTG USB adapter
+- in addition to that you might need an external 5v power supply
+

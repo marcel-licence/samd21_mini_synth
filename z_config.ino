@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Dieses Programm ist Freie Software: Sie k�nnen es unter den Bedingungen
+ * Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
  * der GNU General Public License, wie von der Free Software Foundation,
  * Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
- * ver�ffentlichten Version, weiter verteilen und/oder modifizieren.
+ * veröffentlichten Version, weiter verteilen und/oder modifizieren.
  *
- * Dieses Programm wird in der Hoffnung bereitgestellt, dass es n�tzlich sein wird, jedoch
- * OHNE JEDE GEW�HR,; sogar ohne die implizite
- * Gew�hr der MARKTF�HIGKEIT oder EIGNUNG F�R EINEN BESTIMMTEN ZWECK.
- * Siehe die GNU General Public License f�r weitere Einzelheiten.
+ * Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein wird, jedoch
+ * OHNE JEDE GEWÄHR,; sogar ohne die implizite
+ * Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+ * Siehe die GNU General Public License für weitere Einzelheiten.
  *
  * Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
  * Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
@@ -37,7 +37,14 @@
  * Put all your project configuration here (no defines etc)
  * This file will be included at the and can access all
  * declarations and type definitions
+ *
+ * @see ESP32 Arduino DIY Synthesizer Projects - Little startup guide to get your MIDI synth working - https://youtu.be/ZNxGCB-d68g
  */
+
+
+#ifdef __CDT_PARSER__
+#include <cdt.h>
+#endif
 
 
 /*
@@ -110,6 +117,31 @@ struct midiControllerMapping edirolMapping[] =
 
     /* Central slider */
     { 0x0, 0x13, "H1", NULL, Synth_ModulationWheel, 0},
+
+    /*
+     * USB keyboard mapping
+     */
+    /* F1 - F12 */
+    { 0x0, 0x3A, "F1", NULL, Synth_FuncF, 0},
+    { 0x0, 0x3B, "F2", NULL, Synth_FuncF, 1},
+    { 0x0, 0x3C, "F3", NULL, Synth_FuncF, 2},
+    { 0x0, 0x3D, "F4", NULL, Synth_FuncF, 3},
+
+    { 0x0, 0x3E, "F5", NULL, Synth_FuncF, 4},
+    { 0x0, 0x3F, "F6", NULL, Synth_FuncF, 5},
+    { 0x0, 0x40, "F7", NULL, Synth_FuncF, 6},
+    { 0x0, 0x41, "F8", NULL, Synth_FuncF, 7},
+
+    { 0x0, 0x42, "F9", NULL, Synth_FuncF, 8},
+    { 0x0, 0x43, "F10", NULL, Synth_FuncF, 9},
+    { 0x0, 0x44, "F11", NULL, Synth_FuncF, 10},
+    { 0x0, 0x45, "F12", NULL, Synth_FuncF, 11},
+
+    /* arrow keys */
+    { 0x0, 0x4F, "Arr-R", NULL, Synth_Noise, 1},
+    { 0x0, 0x50, "Arr-L", NULL, Synth_Noise, 2},
+    { 0x0, 0x51, "Arr-D", NULL, Synth_Noise, 4},
+    { 0x0, 0x52, "Arr-U", NULL, Synth_Noise, 8},
 };
 
 struct midiMapping_s midiMapping =
