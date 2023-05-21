@@ -57,6 +57,11 @@
 #endif
 
 
+#define ML_SYNTH_INLINE_DECLARATION
+#include <ml_inline.h>
+#undef ML_SYNTH_INLINE_DECLARATION
+
+
 #define MUL_I16(a, b) ((int16_t)((((int32_t)a) * ((int32_t)(b))) / 0x8000))
 
 
@@ -82,7 +87,9 @@ void setup()
 #if 1
     Midi_Setup();
     Synth_Init();
-    Delay_Init();
+#ifdef SIMPLE_DELAY_BUFFER_SIZE
+    SimpleDelay_Init();
+#endif
     SAMD21_Synth_Init();
 #endif
 
@@ -95,11 +102,15 @@ void setup()
 static uint32_t cnt = 0;
 
 inline
-void ProcessAudio(uint16_t *buff, size_t len)
+void ProcessAudio2(uint16_t *buff, size_t len)
 {
     int32_t u32buf[SAMPLE_BUFFER_SIZE];
     Synth_Process_Buff(u32buf, len);
-    Delay_Process(u32buf, len);
+
+#ifdef SIMPLE_DELAY_BUFFER_SIZE
+    SimpleDelay_Process(u32buf, len);
+#endif
+
 #if 1
     /* convert from u16 to u10 */
     for (size_t i = 0; i < len; i++)
@@ -128,5 +139,5 @@ void loop()
         loop_1Hz();
     }
 
-    SAMD21_Synth_Process(ProcessAudio);
+    SAMD21_Synth_Process(ProcessAudio2);
 }

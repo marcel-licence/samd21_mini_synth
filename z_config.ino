@@ -110,8 +110,10 @@ struct midiControllerMapping edirolMapping[] =
 
     { 0x4, 0x10, "R5", NULL, Synth_SetParam, SYNTH_PARAM_PITCH_BEND_RANGE},
     { 0x5, 0x10, "R6", NULL, NULL, 0},
-    { 0x6, 0x10, "R7", NULL, Delay_SetFeedback, 0},
-    { 0x7, 0x10, "R8", NULL, Delay_SetLevel, 0},
+#ifdef DELAY_BUFFER_SIZE
+    { 0x6, 0x10, "R7", NULL, SimpleDelay_SetFeedback, 0},
+    { 0x7, 0x10, "R8", NULL, SimpleDelay_SetLevel, 0},
+#endif
 
     { 0x0, 0x12, "R9", NULL, NULL, 0},
 
@@ -151,6 +153,11 @@ struct midiMapping_s midiMapping =
     Synth_NoteOff,
     Synth_PitchBend,
     Synth_ModulationWheel,
+#if 1
+    NULL, /* assign program change callback here! */
+    NULL,
+    NULL,
+#endif
     edirolMapping,
     sizeof(edirolMapping) / sizeof(edirolMapping[0]),
 };

@@ -54,12 +54,16 @@
 
 //#define KEYB_USB_HOST_ENABLED /* requires usb=arduino */
 
+
+#define SERIAL_BAUDRATE 115200
+
+
 #define MIDI_RECV_FROM_SERIAL
 #define Status_ValueChangedFloat(...)
 #define Status_ValueChangedFloatArr(...)
 #define SAMPLE_RATE 44100
 #define SAMPLE_BUFFER_SIZE  100
-#define DELAY_BUFFER_SIZE   6000
+#define SIMPLE_DELAY_BUFFER_SIZE   6000
 
 
 #endif /* CONFIG_H_ */
