@@ -79,7 +79,7 @@ void setup()
     MidiDev_setup();
 #else
     delay(1000);
-    Serial.begin(11500);
+    Serial.begin(115200);
     delay(1000);
     Serial.printf("SerUSB Started!\n");
 #endif
@@ -97,8 +97,9 @@ void setup()
     //Synth_NoteOn(0, 69, 1);
 
     Serial.printf("SetupDone!\n");
-}
 
+    pinMode(LED_BUILTIN, OUTPUT);
+}
 
 void loop_1Hz()
 {

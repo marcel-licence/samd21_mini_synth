@@ -689,7 +689,7 @@ void Synth_ModulationWheel(uint8_t ch, float value)
     chControl[ch].modulation.depth = (value * (float)MODULATION_DEPTH_MAX);
 }
 
-void Synth_ModulationSpeed(uint8_t ch, float value)
+void Synth_ModulationSpeed(uint8_t ch __attribute__((__unused__)), float value __attribute__((__unused__)))
 {
 #if 0
     modulationSpeed = value * 10;
@@ -697,7 +697,7 @@ void Synth_ModulationSpeed(uint8_t ch, float value)
 #endif
 }
 
-void Synth_ModulationPitch(uint8_t ch, float value)
+void Synth_ModulationPitch(uint8_t ch __attribute__((__unused__)), float value __attribute__((__unused__)))
 {
 #if 0
     modulationPitch = value * 5;

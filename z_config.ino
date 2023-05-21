@@ -153,11 +153,9 @@ struct midiMapping_s midiMapping =
     Synth_NoteOff,
     Synth_PitchBend,
     Synth_ModulationWheel,
-#if 1
     NULL, /* assign program change callback here! */
     NULL,
     NULL,
-#endif
     edirolMapping,
     sizeof(edirolMapping) / sizeof(edirolMapping[0]),
 };
