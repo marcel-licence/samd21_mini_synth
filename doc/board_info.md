@@ -7,7 +7,7 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 1.8.2<br />
 <b>Board:</b> Seeeduino XIAO<br />
 <br />
-<b>Program storage space:</b> 56348 bytes<br />
+<b>Program storage space:</b> 56388 bytes<br />
 <br />
 <b>USB Stack:</b> Arduino<br />
 <b>Debug:</b> Off<br />

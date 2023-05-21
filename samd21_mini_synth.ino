@@ -99,32 +99,6 @@ void setup()
     Serial.printf("SetupDone!\n");
 }
 
-static uint32_t cnt = 0;
-
-inline
-void ProcessAudio2(uint16_t *buff, size_t len)
-{
-    int32_t u32buf[SAMPLE_BUFFER_SIZE];
-    Synth_Process_Buff(u32buf, len);
-
-#ifdef SIMPLE_DELAY_BUFFER_SIZE
-    SimpleDelay_Process(u32buf, len);
-#endif
-
-#if 1
-    /* convert from u16 to u10 */
-    for (size_t i = 0; i < len; i++)
-    {
-        buff[i] = (uint16_t)(0x200 + (u32buf[i] / 512));
-    }
-#endif
-    cnt += SAMPLE_BUFFER_SIZE;
-    Midi_Process();
-
-#ifdef KEYB_USB_HOST_ENABLED
-    KeybHost_loop();
-#endif
-}
 
 void loop_1Hz()
 {
@@ -133,11 +107,32 @@ void loop_1Hz()
 
 void loop()
 {
+    static uint32_t cnt = 0;
+
     if (cnt >= SAMPLE_RATE)
     {
         cnt = 0;
         loop_1Hz();
     }
 
-    SAMD21_Synth_Process(ProcessAudio2);
+    int32_t u32buf[SAMPLE_BUFFER_SIZE];
+    Synth_Process_Buff(u32buf, SAMPLE_BUFFER_SIZE);
+
+    for (size_t i = 0; i < SAMPLE_BUFFER_SIZE; i++)
+    {
+        u32buf[i] <<= 12;
+    }
+
+#ifdef SIMPLE_DELAY_BUFFER_SIZE
+    SimpleDelay_Process(u32buf, SAMPLE_BUFFER_SIZE);
+#endif
+
+    Audio_OutputMono(u32buf);
+
+    cnt += SAMPLE_BUFFER_SIZE;
+    Midi_Process();
+
+#ifdef KEYB_USB_HOST_ENABLED
+    KeybHost_loop();
+#endif
 }
