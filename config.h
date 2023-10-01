@@ -59,8 +59,6 @@
 
 
 #define MIDI_RECV_FROM_SERIAL
-#define Status_ValueChangedFloat(...)
-#define Status_ValueChangedFloatArr(...)
 #define SAMPLE_RATE 44100
 #define SAMPLE_BUFFER_SIZE  100
 #define SIMPLE_DELAY_BUFFER_SIZE   6000

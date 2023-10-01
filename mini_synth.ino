@@ -253,11 +253,11 @@ void Synth_Init()
         sinef[i] = (val);
         sine[i] = FLOAT_TO_I16(val);
         saw[i] = FLOAT_TO_I16((2.0f * ((float)i) / ((float)WAVEFORM_CNT)) - 1.0f) / 2;
-        square[i] =  FLOAT_TO_I16((i > (WAVEFORM_CNT / 2)) ? 1 : -1) / 4;
-        pulse[i] =  FLOAT_TO_I16((i > (WAVEFORM_CNT / 4)) ? 0.25 : -1) / 2;
+        square[i] = FLOAT_TO_I16((i > (WAVEFORM_CNT / 2)) ? 1 : -1) / 4;
+        pulse[i] = FLOAT_TO_I16((i > (WAVEFORM_CNT / 4)) ? 0.25 : -1) / 2;
         tri[i] = FLOAT_TO_I16(((i > (WAVEFORM_CNT / 2)) ? (((4.0f * (float)i) / ((float)WAVEFORM_CNT)) - 1.0f) : (3.0f - ((4.0f * (float)i) / ((float)WAVEFORM_CNT)))) - 2.0f);
-        noise[i] =  FLOAT_TO_I16((random(1024) / 512.0f) - 1.0f);
-        silence[i] =  FLOAT_TO_I16(0);
+        noise[i] = FLOAT_TO_I16((random(1024) / 512.0f) - 1.0f);
+        silence[i] = FLOAT_TO_I16(0);
     }
 
     /*
@@ -447,8 +447,8 @@ inline void Synth_Process_Buff(int32_t *left, int buffLen)
             if (synthNoiseCnt >= synthNoise)
             {
                 synthNoiseCnt = 0;
-                synthNoiseSignal *=  0x11;//analogRead(A1);
-                synthNoiseSignal += 0x73956366;//analogRead(A1);
+                synthNoiseSignal *= 0x11; //analogRead(A1);
+                synthNoiseSignal += 0x73956366; //analogRead(A1);
                 synthNoiseSignal = (synthNoiseSignal << 2) + (synthNoiseSignal >> 14);
             }
             synthNoiseCnt++;

@@ -58,8 +58,6 @@ USBHost UsbH;
 KeyboardController keyboard(UsbH);
 
 
-
-
 void KeybHost_setup()
 {
     //bFirst = true;
@@ -214,7 +212,7 @@ void keyPressed()
 {
     SerialDebug.print("Pressed:  ");
     printKey();
-    for (int  i = 0; i < MAP_SIZE; i++)
+    for (int i = 0; i < MAP_SIZE; i++)
     {
         if (keyMidiMapping[i].key == keyboard.getOemKey())
         {
@@ -222,12 +220,12 @@ void keyPressed()
         }
     }
 
-    for (int  i = 0; i < MAP_CC_SIZE; i++)
+    for (int i = 0; i < MAP_CC_SIZE; i++)
     {
         if (keyMidiCcMapping[i].key == keyboard.getOemKey())
         {
             Midi_ControlChange(0, keyMidiCcMapping[i].cc, 127);
-            SerialDebug.printf("cc: %d on\n",  keyMidiCcMapping[i].cc);
+            SerialDebug.printf("cc: %d on\n", keyMidiCcMapping[i].cc);
         }
     }
 }
@@ -238,7 +236,7 @@ void keyReleased()
     SerialDebug.print("Released: ");
     printKey();
 
-    for (int  i = 0; i < MAP_SIZE; i++)
+    for (int i = 0; i < MAP_SIZE; i++)
     {
         if (keyMidiMapping[i].key == keyboard.getOemKey())
         {
@@ -246,12 +244,12 @@ void keyReleased()
         }
     }
 
-    for (int  i = 0; i < MAP_CC_SIZE; i++)
+    for (int i = 0; i < MAP_CC_SIZE; i++)
     {
         if (keyMidiCcMapping[i].key == keyboard.getOemKey())
         {
             Midi_ControlChange(0, keyMidiCcMapping[i].cc, 0);
-            SerialDebug.printf("cc: %d off\n",  keyMidiCcMapping[i].cc);
+            SerialDebug.printf("cc: %d off\n", keyMidiCcMapping[i].cc);
         }
     }
 }
