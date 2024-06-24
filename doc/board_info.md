@@ -7,7 +7,7 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 1.8.2<br />
 <b>Board:</b> Seeeduino XIAO<br />
 <br />
-<b>Program storage space:</b> 56388 bytes<br />
+<b>Program storage space:</b> 56412 bytes<br />
 <br />
 <b>USB Stack:</b> Arduino<br />
 <b>Debug:</b> Off<br />
@@ -23,7 +23,7 @@ Below you will find a list of build which can be configured and should compile w
     </tr>
     <tr>
         <td>ML SynthTools</td>
-        <td>1.1.0</td>
+        <td>1.3.1</td>
         <td>https://github.com/marcel-licence/ML_SynthTools</td>
         <td>https://github.com/marcel-licence/ML_SynthTools.git</td>
         <td>False</td>
