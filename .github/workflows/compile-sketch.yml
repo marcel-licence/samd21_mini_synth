@@ -37,17 +37,5 @@ jobs:
           libraries: |
               - source-url: https://github.com/marcel-licence/ML_SynthTools.git
                 name: ML_SynthTools
-              - source-url: https://github.com/marcel-licence/ML_SynthTools_Lib.git
-                name: ML_SynthTools_Lib
-              - source-url: https://github.com/adafruit/Adafruit-GFX-Library.git
-                name: Adafruit_GFX_Library
-                version: 1.10.10
-              - source-url: https://github.com/adafruit/Adafruit_SSD1306.git
-                name: Adafruit_SSD1306
-                version: 2.4.5
-              - source-url: https://github.com/adafruit/Adafruit_BusIO.git
-                name: Adafruit BusIO
-                version: 1.14.1
-              - source-url: https://github.com/marcel-licence/AC101.git
-                name: AC101
+
 
