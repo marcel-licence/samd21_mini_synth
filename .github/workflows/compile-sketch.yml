@@ -35,7 +35,6 @@ jobs:
           sketch-paths: |
             - ./
           libraries: |
-              - source-url: https://github.com/marcel-licence/ML_SynthTools.git
-                name: ML_SynthTools
+
 
 
