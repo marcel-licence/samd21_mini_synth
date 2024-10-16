@@ -7,9 +7,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build_esp32:
+  build_samd:
 
-    name: build esp32
+    name: build samd
 
     runs-on: ubuntu-latest
 
@@ -30,7 +30,8 @@ jobs:
           fqbn: ${{ matrix.fqbn }}
           platforms: |
             - name: Seeeduino:samd
-              source-url: https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json              version: 2.0.13
+              source-url: https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json              
+              version: 1.8.5
           sketch-paths: |
             - ./
           libraries: |
