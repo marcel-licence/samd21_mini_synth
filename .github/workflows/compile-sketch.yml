@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         fqbn:
-          - Seeeduino:samd21:xiao
+          - Seeeduino:samd:seeed_XIAO_m0
 
     steps:
       - name: Checkout repository
@@ -29,7 +29,7 @@ jobs:
         with:
           fqbn: ${{ matrix.fqbn }}
           platforms: |
-            - name: Seeeduino:Seeeduino
+            - name: Seeeduino:samd
               source-url: https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json              version: 2.0.13
           sketch-paths: |
             - ./
