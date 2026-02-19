@@ -29,3 +29,47 @@ Please activate KEYB_USB_HOST_ENABLED in config.h to allow connecting an USB key
 - the keyboard can be connected using an OTG USB adapter
 - in addition to that you might need an external 5v power supply
 
+
+
+## 🔧 Prebuilt Firmware
+
+You can download ready-to-flash firmware without installing Arduino or building from source.
+
+### 📥 Download
+
+1. Go to the **Actions** tab of this repository.
+2. Open the latest successful build.
+3. Download the artifact for your board.
+4. Extract the archive.
+5. Use the `.uf2` file.
+
+---
+
+### 🚀 Flashing the Seeeduino XIAO
+
+1. Connect the XIAO via USB.
+2. Double-press the reset button. (short reset pin to ground with tweezers)
+3. A USB drive named `Arduino` (or similar) will appear.
+4. Drag & drop the `.uf2` file onto that drive.
+5. The board will automatically reboot with the new firmware.
+
+No Arduino IDE required.
+
+---
+
+### 📦 Available Files
+
+The build artifacts contain:
+
+* `.uf2` → Drag & drop firmware (recommended)
+* `.bin` → Raw binary
+* `.hex` → Intel HEX format
+* `.elf` → Debug build with symbols
+* `.map` → Linker memory map
+
+---
+
+### ⚠ Notes
+
+* Always use firmware built for your specific board.
+* If flashing fails, double-press reset again to re-enter bootloader mode.

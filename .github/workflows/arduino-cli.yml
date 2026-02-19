@@ -3,6 +3,8 @@ name: C/C++ CI
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - "v*"
   pull_request:
     branches: [ "main" ]
 
@@ -54,13 +56,29 @@ jobs:
   
     - name: Generate UF2
       run: |
-        pip install uf2conv
-        uf2conv build/${{ matrix.board.name }}/*.bin \
+        BIN_FILE=$(find build -name "*.bin" | head -n 1)
+    
+        curl -L https://raw.githubusercontent.com/microsoft/uf2/master/utils/uf2conv.py -o uf2conv.py
+    
+        python3 uf2conv.py $BIN_FILE \
           --family SAMD21 \
-          --output build/${{ matrix.board.name }}/firmware.uf2
+          --output build/firmware.uf2
   
     - name: Upload firmware
       uses: actions/upload-artifact@v4
       with:
         name: firmware-xiao_samd21
         path: build/*
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          build/*.bin
+          build/*.hex
+          build/*.elf
+          build/*.map
+          build/*.uf2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
