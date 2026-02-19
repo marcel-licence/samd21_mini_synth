@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Marcel Licence
+ * Copyright (c) 2026 Marcel Licence
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,13 +58,12 @@
 //#define OUTPUT_SAW_TEST /* set this define to generate a test signal to test the audio output */
 //#define OUTPUT_SINE_TEST /* not supported */
 
-
 #define SERIAL_BAUDRATE 115200
 
 #define MIDI_PORT1_ACTIVE /* with this Rx and Tx are used for serial MIDI */
 
-#define MIDI_RECV_FROM_SERIAL
-#define MIDI_MONITOR_ENABLED
+#define MIDI_RECV_FROM_SERIAL /* allows Serial input (mostly USB) and process messages as MIDI messages */
+#define MIDI_MONITOR_ENABLED /* print out received messages to the Serial interface */
 
 #define SAMPLE_RATE 44100
 #define SAMPLE_BUFFER_SIZE  100

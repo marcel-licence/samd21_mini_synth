@@ -5,7 +5,7 @@
   <a href="https://youtu.be/x4WEWTdZR90">link to the video</a>
 </p>
 <h2>Description</h2>
-This time I went back to a very small controller: ATSAMD21G18A on a Seeeduino XIAO
+This time I went back to a very small controller: ATSAMD21G18A on a [Seeeduino XIAO aka Seeed Studio XIAO SAMD21](https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html)
 The chip tune like polyphonic synthesizer is the result of my little experiment
 It runs with "only" 48MHz without FPU and has one DAC (real analog output with 10 bit resolution)
 
