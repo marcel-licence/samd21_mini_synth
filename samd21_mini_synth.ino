@@ -84,14 +84,12 @@ void setup()
     Serial.printf("SerUSB Started!\n");
 #endif
 
-#if 1
     Midi_Setup();
     Synth_Init();
 #ifdef SIMPLE_DELAY_BUFFER_SIZE
     SimpleDelay_Init();
 #endif
-    SAMD21_Synth_Init();
-#endif
+    Audio_Setup();
 
     /* play 440 Hz note */
     //Synth_NoteOn(0, 69, 1);

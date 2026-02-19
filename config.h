@@ -55,12 +55,17 @@
 //#define KEYB_USB_HOST_ENABLED /* requires usb=arduino */
 
 
+//#define OUTPUT_SAW_TEST /* set this define to generate a test signal to test the audio output */
+//#define OUTPUT_SINE_TEST /* not supported */
+
+
 #define SERIAL_BAUDRATE 115200
 
+#define MIDI_PORT1_ACTIVE /* with this Rx and Tx are used for serial MIDI */
 
 #define MIDI_RECV_FROM_SERIAL
-#define Status_ValueChangedFloat(...)
-#define Status_ValueChangedFloatArr(...)
+#define MIDI_MONITOR_ENABLED
+
 #define SAMPLE_RATE 44100
 #define SAMPLE_BUFFER_SIZE  100
 #define SIMPLE_DELAY_BUFFER_SIZE   6000
