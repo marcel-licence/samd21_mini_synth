@@ -37,6 +37,9 @@ You can download ready-to-flash firmware without installing Arduino or building 
 
 ### 📥 Download
 
+[![C/C++ CI](https://github.com/marcel-licence/samd21_mini_synth/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/marcel-licence/samd21_mini_synth/releases/latest)
+[![Latest Release](https://img.shields.io/github/v/release/marcel-licence/samd21_mini_synth?label=Download%20UF2&color=blue)](https://github.com/marcel-licence/samd21_mini_synth/releases/latest)
+
 1. Go to the **Actions** tab of this repository.
 2. Open the latest successful build.
 3. Download the artifact for your board.

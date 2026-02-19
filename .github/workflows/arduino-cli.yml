@@ -52,18 +52,7 @@ jobs:
         arduino-cli compile \
           --fqbn Seeeduino:samd:seeed_XIAO_m0 \
           --output-dir build \
-          ./
-  
-    - name: Generate UF2
-      run: |
-        # 1. Install the tool via pip
-        pip3 install uf2conv
-
-        # 2. Find the compiled binary
-        BIN_FILE=$(find build -name "*.bin" | head -n 1)
-
-        # 3. Convert to UF2 using the SAMD21 Family ID (0x68edeb7d)
-        uf2conv "$BIN_FILE" -c -f 0x68edeb7d -o build/firmware.uf2
+          ./ 
   
     - name: Generate UF2
       if: always()
