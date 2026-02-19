@@ -56,12 +56,16 @@ jobs:
   
     - name: Generate UF2
       run: |
+        # 1. Find the compiled binary
         BIN_FILE=$(find build -name "*.bin" | head -n 1)
-    
-        curl -L https://raw.githubusercontent.com/microsoft/uf2/master/utils/uf2conv.py -o uf2conv.py
-    
-        python3 uf2conv.py $BIN_FILE \
-          --family SAMD21 \
+        
+        # 2. Locate the tool installed by the Seeeduino core
+        UF2_TOOL=$(find ~/.arduino15/packages/Seeeduino/tools/uf2conv -name "uf2conv.py" | head -n 1)
+        
+        # 3. Run the tool (the local version usually doesn't need the .json or family flag 
+        #    if it's already patched for Seeed, but we'll use the basic call)
+        python3 "$UF2_TOOL" "$BIN_FILE" \
+          --convert \
           --output build/firmware.uf2
   
     - name: Upload firmware
