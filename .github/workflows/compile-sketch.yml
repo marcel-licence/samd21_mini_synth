@@ -27,7 +27,6 @@ jobs:
       - name: Compile sketch
         uses: arduino/compile-sketches@v1
         with:
-          name: xiao_samd21
           fqbn: ${{ matrix.fqbn }}
           platforms: |
             - name: Seeeduino:samd
@@ -55,10 +54,3 @@ jobs:
           enable-warnings-report: false
           export-binaries: true
           build-path: build
-      - name: Upload firmware artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware-${{ matrix.name }}
-          path: |
-            build/**/*.bin
-            build/**/*.hex

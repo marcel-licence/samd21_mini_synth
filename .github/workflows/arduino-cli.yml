@@ -1,0 +1,49 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_samd:
+
+    name: build samd
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        fqbn:
+          - Seeeduino:samd:seeed_XIAO_m0
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Arduino CLI
+      uses: arduino/setup-arduino-cli@v1
+  
+    - name: Install core
+      run: |
+        arduino-cli core update-index --additional-urls https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+        arduino-cli core install Seeeduino:samd@1.8.5 --additional-urls https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+  
+    - name: Install libraries
+      run: |
+        arduino-cli lib install "Adafruit GFX Library@1.10.10"
+        arduino-cli lib install "Adafruit SSD1306@2.4.5"
+        arduino-cli lib install "Adafruit BusIO@1.14.1"
+  
+    - name: Compile sketch
+      run: |
+        arduino-cli compile \
+          --fqbn Seeeduino:samd:seeed_XIAO_m0 \
+          --output-dir build \
+          ./
+  
+    - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-xiao_samd21
+          path: build/*
