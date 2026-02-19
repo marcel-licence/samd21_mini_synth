@@ -43,7 +43,7 @@ jobs:
           ./
   
     - name: Upload firmware
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware-xiao_samd21
-          path: build/*
+      uses: actions/upload-artifact@v4
+      with:
+        name: firmware-xiao_samd21
+        path: build/*
