@@ -781,7 +781,7 @@ void Synth_SetParam(uint8_t param, float value)
         break;
 
     case SYNTH_PARAM_MODULATION_SPEED:
-        chControl[0].modulation.speed = value * 128;
+        chControl[actCh].modulation.speed = value * 128;
         break;
 
     case SYNTH_PARAM_MODULATION_PITCH:
