@@ -50,7 +50,3 @@ jobs:
                 version: 1.14.1
               - source-url: https://github.com/marcel-licence/AC101.git
                 name: AC101
-          enable-deltas-report: false
-          enable-warnings-report: false
-          export-binaries: true
-          build-path: build

@@ -52,6 +52,13 @@ jobs:
           --output-dir build \
           ./
   
+    - name: Generate UF2
+      run: |
+        pip install uf2conv
+        uf2conv build/${{ matrix.board.name }}/*.bin \
+          --family SAMD21 \
+          --output build/${{ matrix.board.name }}/firmware.uf2
+  
     - name: Upload firmware
       uses: actions/upload-artifact@v4
       with:
